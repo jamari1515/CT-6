@@ -1,0 +1,93 @@
+public class Student {
+    int rollno;
+    String name;
+    String address;
+
+    public Student(int rollno, String name, String address) {
+        this.rollno = rollno;
+        this.name = name;
+        this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "Roll No: " + rollno + ", Name: " + name + ", Address: " + address;
+    }
+}
+
+import java.util.Comparator;
+
+public class NameComparator implements Comparator<Student> {
+    @Override
+    public int compare(Student s1, Student s2) {
+        return s1.name.compareTo(s2.name);
+    }
+}
+
+
+import java.util.Comparator;
+
+public class RollnoComparator implements Comparator<Student> {
+    @Override
+    public int compare(Student s1, Student s2) {
+        return s1.rollno - s2.rollno;
+    }
+}
+
+
+import java.util.Comparator;
+import java.util.List;
+
+public class SelectionSort {
+    
+    public static void selectionSort(List<Student> students, Comparator<Student> comparator) {
+        int n = students.size();
+        
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (comparator.compare(students.get(j), students.get(minIndex)) < 0) {
+                    minIndex = j;
+                }
+            }
+            // Swap the elements
+            Student temp = students.get(minIndex);
+            students.set(minIndex, students.get(i));
+            students.set(i, temp);
+        }
+    }
+}
+
+
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        // Creating a list of Student objects
+        ArrayList<Student> students = new ArrayList<>();
+        students.add(new Student(101, "John", "New York"));
+        students.add(new Student(105, "Anna", "Chicago"));
+        students.add(new Student(102, "Mike", "Los Angeles"));
+        students.add(new Student(103, "Sophia", "Boston"));
+        students.add(new Student(106, "James", "Houston"));
+        students.add(new Student(104, "Emily", "San Francisco"));
+        students.add(new Student(109, "David", "Austin"));
+        students.add(new Student(107, "Olivia", "Dallas"));
+        students.add(new Student(110, "Lucas", "Denver"));
+        students.add(new Student(108, "Isabella", "Miami"));
+
+        // Sort by name
+        System.out.println("Sorting by Name:");
+        SelectionSort.selectionSort(students, new NameComparator());
+        for (Student student : students) {
+            System.out.println(student);
+        }
+
+        // Sort by roll number
+        System.out.println("\nSorting by Roll Number:");
+        SelectionSort.selectionSort(students, new RollnoComparator());
+        for (Student student : students) {
+            System.out.println(student);
+        }
+    }
+}
